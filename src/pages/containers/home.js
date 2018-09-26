@@ -11,29 +11,29 @@ class Home extends Component {
 
     state = {
         modalVisible: false,
+        media       : [],
     }
 
     handleCloseModal = (event) => {
         this.setState({modalVisible: false});
     }
 
-    handleOpenModal = () => {
-        this.setState({modalVisible: true});
+    handleOpenModal = (media) => {
+        this.setState({modalVisible: true, media});
     }    
 
     render() {       
         return (    
             <HandleError>
                   <HomeLayout>
-                    <Related/>
-                    <VideoPlayer autoplay/>
+                    <Related/>                   
                     <Categories categories={this.props.data.categories} handleOpenModal={this.handleOpenModal}/>
                     {
                         this.state.modalVisible &&
                         <ModalContainer>
-                        <Modal handleClick={this.handleCloseModal}>
-                            <h1>Este es un portal</h1>
-                            </Modal>                        
+                         <Modal handleClick={this.handleCloseModal}>
+                            <VideoPlayer src={this.state.media.src} title={this.state.media.title} autoplay={true}/>
+                        </Modal>                        
                         </ModalContainer>
                     }                    
                 </HomeLayout>
