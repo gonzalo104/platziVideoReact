@@ -10,11 +10,11 @@ const Categories = (props) => {
             <Search/>
             {
                 props.search.map((item) => {
-                    return <Media key={item.id} {...item}/>
+                    return <Media key={item.get('id')} {...item.toJS()}/>
                 })
             }
             { props.categories.map((item) => {
-               return <Category handleOpenModal={props.handleOpenModal} key={item.id} {...item}/>
+               return <Category handleOpenModal={props.handleOpenModal} key={item.get('id')} {...item.toJS()}/>
             })
             }
         </div>
