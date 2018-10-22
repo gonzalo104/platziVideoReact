@@ -9,6 +9,7 @@ import ProgressBar from '../components/progress-bar';
 import Spinner from '../components/spinner';
 import Volume from '../components/volume';
 import FullScreen from '../components/full-screen';
+import {connect} from 'react-redux';
 
 class VideoPlayer extends Component {
 
@@ -77,7 +78,7 @@ class VideoPlayer extends Component {
     render() {
         return (
            <VideoPlayerLayout setRef={this.setRef}>
-            <Title title={this.props.title}/>           
+            <Title title={this.props.media.get('title')}/>           
            <Controls>
                 <PlayPause pause={this.state.pause} handleClick={this.togglePlay} />
                 <Timer duration={this.state.duration} currentTime={this.state.currentTime}/>
@@ -86,11 +87,24 @@ class VideoPlayer extends Component {
                 <FullScreen handleFullScreenClick={this.handleFullScreenClick}/>
            </Controls>  
            <Spinner active={this.state.loading}/>         
-            <Video src={this.props.src} handleSeeking={this.handleSeeking} handleSeeked={this.handleSeeked}
-             handleTimeUpdate={this.handleTimeUpdate} handleLoadedMetadata={this.handleLoadedMetadata} pause={this.state.pause} autoplay={this.props.autoplay}/>
+            <Video 
+            src                  = {this.props.media.get('src')}
+            handleSeeking        = {this.handleSeeking}
+            handleSeeked         = {this.handleSeeked}
+            handleTimeUpdate     = {this.handleTimeUpdate}
+            handleLoadedMetadata = {this.handleLoadedMetadata}
+            pause                = {this.state.pause}
+            autoplay             = {this.props.autoplay}/>
            </VideoPlayerLayout>
         );
     }
 }
 
-export default VideoPlayer;
+const mapStateToProps = (state, props) => {
+    return {
+        media: state.get('data').get('entities').get('media').get(props.id)
+    }
+}
+
+
+export default connect(mapStateToProps)(VideoPlayer);
