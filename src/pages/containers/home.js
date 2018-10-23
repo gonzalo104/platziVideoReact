@@ -8,6 +8,8 @@ import HandleError from '../../error/containers/handle-error';
 import VideoPlayer from '../../player/containers/video-player';
 import {connect} from 'react-redux';
 import {List as list} from 'immutable';
+import * as actions from '../../actions/index';
+import {bindActionCreators} from 'redux';
 
 class Home extends Component {
 
@@ -18,19 +20,12 @@ class Home extends Component {
 
     handleCloseModal = (event) => {
         //this.setState({modalVisible: false});
-        this.props.dispatch({
-            type: 'CLOSE_MODAL',
-        });
+        this.props.actions.closeModal()
     }
 
     handleOpenModal = (id) => {
         //this.setState({modalVisible: true, media});
-        this.props.dispatch({
-            type   : 'OPEN_MODAL',
-            payload: {
-                mediaId: id
-            }
-        });
+        this.props.actions.openModal(id);
     }    
 
     render() {       
@@ -38,7 +33,7 @@ class Home extends Component {
             <HandleError>
                   <HomeLayout>
                     <Related/>                   
-                    <Categories categories={this.props.categories} handleOpenModal={this.handleOpenModal} search={this.props.search}/>
+                    <Categories categories={this.props.categories} handleOpenModal={this.handleOpenModal} search={this.props.search} isLoading={this.props.isLoading}/>
                     {
                         this.props.modal.get('visibility') &&
                         <ModalContainer>
@@ -71,9 +66,16 @@ const mapStateToProps = (state, props) => {
     }
     return {
         categories,
-        search: searchResults,
-        modal : state.get('modal')
+        search   : searchResults,
+        modal    : state.get('modal'),
+        isLoading: state.get('isLoading').get("active"),
     }
 }
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        actions: bindActionCreators(actions, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
