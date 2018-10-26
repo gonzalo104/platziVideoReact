@@ -26,7 +26,16 @@ class Home extends Component {
     handleOpenModal = (id) => {
         //this.setState({modalVisible: true, media});
         this.props.actions.openModal(id);
-    }    
+    }  
+    
+    componentDidMount(){
+        const search = this.props.location.search;
+        if(search){
+            const id = search.split('=')[1];
+            this.handleOpenModal(id);
+        }
+    }
+
 
     render() {       
         return (    

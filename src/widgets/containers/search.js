@@ -6,7 +6,8 @@ import {bindActionCreators} from 'redux';
 
 class SearchContainer extends Component {
     state = {
-        value: "Luis Fonsi",
+        value : "",
+        prompt: false
     }
 
     handleSubmit = event => {
@@ -20,7 +21,7 @@ class SearchContainer extends Component {
     }
     
     handleInputChange = event => {
-        this.setState({value: event.target.value.replace(" ", "-")});
+        this.setState({value: event.target.value.replace(" ", "-"), prompt: !!(event.target.value.length)});
     }
 
     render() {
@@ -30,6 +31,7 @@ class SearchContainer extends Component {
                handleSubmit = {this.handleSubmit}
                handleChange = {this.handleInputChange}
                value        = {this.state.value}
+               prompt       = {this.state.prompt}
            />
         );
     }

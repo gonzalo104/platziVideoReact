@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './media.css';
+import {Link } from 'react-router-dom';
 
 class Media extends PureComponent {
     
@@ -15,6 +16,14 @@ class Media extends PureComponent {
    
     render() {
         return (
+            <Link to={{
+                pathname: '/videos',
+                search  : `?id=${this.props.id}`,
+                state   : {
+                    modal: true,
+                    id   : this.props.id
+                }
+            }}>
             <div className="Media" onClick={this.handleClick}>
                 <div className="Media-Cover">
                     <img className="Media-image" src={this.props.cover} alt="" width={260} height={160}/>
@@ -22,6 +31,7 @@ class Media extends PureComponent {
                     <p className="Media-author">{this.props.author}</p>
                 </div>
             </div>
+            </Link>
         );
     }
 }
